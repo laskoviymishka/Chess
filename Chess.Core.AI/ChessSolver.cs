@@ -6,37 +6,37 @@ using DebutsLib;
 
 namespace Queem.AI
 {
-	public class ChessSolver
-	{
-		protected DebutGraph debutGraph;
+    public class ChessSolver
+    {
+        protected DebutGraph debutGraph;
         protected GameProvider gameProvider;
         protected MovesArrayAllocator allocator;
         protected Move bestMove;
         protected int ply;
         protected int nodesSearched;
-	
-		public ChessSolver (DebutGraph graph)
-		{
-			this.debutGraph = graph;			
-		}
+
+        public ChessSolver(DebutGraph graph)
+        {
+            this.debutGraph = graph;
+        }
 
         public int NodesSearched
         {
             get { return this.nodesSearched; }
         }
-		
-		protected bool TryFindDebutMove(out Move debutMove)
-		{
-			debutMove = null;
+
+        protected bool TryFindDebutMove(out Move debutMove)
+        {
+            debutMove = null;
             return false;
-		}		
-		
-		public Move SolveProblem(GameProvider provider, Color color, int maxdepth)
-		{
-			Move bestMove;
-			
-			if (this.TryFindDebutMove(out bestMove))
-				return bestMove;
+        }
+
+        public Move SolveProblem(GameProvider provider, Color color, int maxdepth)
+        {
+            Move bestMove;
+
+            if (this.TryFindDebutMove(out bestMove))
+                return bestMove;
 
             this.gameProvider = provider;
             this.ply = 0;
@@ -44,12 +44,12 @@ namespace Queem.AI
             this.allocator = provider.Allocator;
             this.AlphaBetaMain(maxdepth, color);
             return this.bestMove;
-		}
+        }
 
         protected int AlphaBetaMain(int depth, Color color)
         {
-            ChessTreeNode node = new ChessTreeNode() 
-            { 
+            ChessTreeNode node = new ChessTreeNode()
+            {
                 Alpha = -Evaluator.MateValue,
                 Beta = Evaluator.MateValue,
                 Depth = depth,
@@ -67,10 +67,10 @@ namespace Queem.AI
             Color currPlayerColor = player.FigureColor;
 
             var movesArray = player.GetMoves(
-                opponent, 
-                this.gameProvider.History.GetLastMove(), 
+                opponent,
+                this.gameProvider.History.GetLastMove(),
                 MovesMask.AllMoves);
-            this.gameProvider.FilterMoves(movesArray, currPlayerColor);            
+            this.gameProvider.FilterMoves(movesArray, currPlayerColor);
 
             if (movesArray.Size == 0)
             {
@@ -95,8 +95,8 @@ namespace Queem.AI
                 needsPromotion = (int)move.Type >= (int)MoveType.Promotion;
                 if (needsPromotion)
                     this.gameProvider.PromotePawn(
-                        currPlayerColor, 
-                        move.To, 
+                        currPlayerColor,
+                        move.To,
                         move.Type.GetPromotionFigure());
 
                 if (bSearchPV)
@@ -139,8 +139,8 @@ namespace Queem.AI
             Color currPlayerColor = player.FigureColor;
 
             var movesArray = player.GetMoves(
-                opponent, 
-                this.gameProvider.History.GetLastMove(), 
+                opponent,
+                this.gameProvider.History.GetLastMove(),
                 MovesMask.AllMoves);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
 
@@ -167,8 +167,8 @@ namespace Queem.AI
                 needsPromotion = (int)move.Type >= (int)MoveType.Promotion;
                 if (needsPromotion)
                     this.gameProvider.PromotePawn(
-                        currPlayerColor, 
-                        move.To, 
+                        currPlayerColor,
+                        move.To,
                         move.Type.GetPromotionFigure());
 
                 if (bSearchPV)
@@ -214,8 +214,8 @@ namespace Queem.AI
             Color currPlayerColor = player.FigureColor;
 
             var movesArray = player.GetMoves(
-                opponent, 
-                this.gameProvider.History.GetLastMove(), 
+                opponent,
+                this.gameProvider.History.GetLastMove(),
                 MovesMask.AllMoves);
             this.gameProvider.FilterMoves(movesArray, currPlayerColor);
 
@@ -242,12 +242,12 @@ namespace Queem.AI
                 needsPromotion = (int)move.Type >= (int)MoveType.Promotion;
                 if (needsPromotion)
                     this.gameProvider.PromotePawn(
-                        currPlayerColor, 
-                        move.To, 
+                        currPlayerColor,
+                        move.To,
                         move.Type.GetPromotionFigure());
-                                
+
                 score = -zwSearch(node.GetNextZW());
-                
+
                 this.gameProvider.CancelLastMove(currPlayerColor);
                 --ply;
 
@@ -268,22 +268,22 @@ namespace Queem.AI
 
             var player = this.gameProvider.PlayerBoards[node.PlayerIndex];
             var opponent = this.gameProvider.PlayerBoards[1 - node.PlayerIndex];
-            
+
             int positionValue = Evaluator.Evaluate(player, opponent);
 
             if (node.Depth < -5)
                 return positionValue;
-            
+
             if (positionValue >= node.Beta)
                 return node.Beta;
 
             if (node.Alpha < positionValue)
                 node.Alpha = positionValue;
-                        
+
             int score = -Evaluator.MateValue;
             Color currPlayerColor = player.FigureColor;
             bool wasKingInCheck = player.IsUnderAttack(player.King.GetSquare(), opponent);
-            
+
             var movesArray = player.GetMoves(
                             opponent,
                             this.gameProvider.History.GetLastMove(),
@@ -296,7 +296,7 @@ namespace Queem.AI
                     this.allocator.ReleaseLast();
                     return (-Evaluator.MateValue) + ply;
                 }
-            
+
             var moves = movesArray.InnerArray;
             for (int i = 0; i < movesArray.Size; ++i)
             {
@@ -308,8 +308,8 @@ namespace Queem.AI
                 bool needsPromotion = (int)move.Type >= (int)MoveType.Promotion;
                 if (needsPromotion)
                     this.gameProvider.PromotePawn(
-                        currPlayerColor, 
-                        move.To, 
+                        currPlayerColor,
+                        move.To,
                         move.Type.GetPromotionFigure());
 
                 score = -Quiescence(node.GetNext());
@@ -330,6 +330,6 @@ namespace Queem.AI
             this.allocator.ReleaseLast();
             return node.Alpha;
         }
-	}
+    }
 }
 

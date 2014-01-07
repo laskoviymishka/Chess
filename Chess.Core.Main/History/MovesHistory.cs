@@ -7,7 +7,7 @@ namespace Chess.Core.Main.History
 {
     public class MovesHistory
     {
-        protected readonly int maxlength = 10000;
+        protected readonly int maxlength = 100000;
         protected List<Move> moves;
         protected List<DeltaChange> deltaChanges;
         protected int lastIndex;

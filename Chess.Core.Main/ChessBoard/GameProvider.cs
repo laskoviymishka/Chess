@@ -125,16 +125,16 @@ namespace Chess.Core.Main.ChessBoard
             var playerBoard1 = this.playerBoards[(int)color];
             var playerBoard2 = this.playerBoards[(int)oppositeColor];
 
-            Move getLastMove = new Move(Square.A1, Square.A8);
-            if (History.HasItems())
-            {
-                getLastMove = this.History.GetLastMove();
-            }
+            //Move getLastMove = new Move(Square.A1, Square.A8);
+            //if (History.HasItems())
+            //{
+            //    getLastMove = this.History.GetLastMove();
+            //}
 
-            if (!GetValidMoves(color).Contains(move, Move.FromToComparer))
-            {
-                return false;
-            }
+            //if (!GetValidMoves(color).Contains(move, Move.FromToComparer))
+            //{
+            //    return false;
+            //}
 
             var figureMoving = playerBoard1.Figures[(int)move.From];
             var destinationFigure = playerBoard2.Figures[(int)move.To];

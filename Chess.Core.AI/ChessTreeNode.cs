@@ -3,27 +3,27 @@ using Chess.Core.Main;
 
 namespace Queem.AI
 {
-	public class ChessTreeNode
-	{
-		public ChessTreeNode ()
-		{
-		}
-		
-		public int Alpha { get; set; }
-		public int Beta { get; set; }
-		public int Depth { get; set; }
+    public class ChessTreeNode
+    {
+        public ChessTreeNode()
+        {
+        }
+
+        public int Alpha { get; set; }
+        public int Beta { get; set; }
+        public int Depth { get; set; }
         public int PlayerIndex { get; set; }
-	
-		public virtual ChessTreeNode GetNext()
-		{
-			var nextNode = new ChessTreeNode();
-			nextNode.Alpha = -this.Beta;
-			nextNode.Beta = -this.Alpha;
-			nextNode.Depth = this.Depth - 1;
+
+        public virtual ChessTreeNode GetNext()
+        {
+            var nextNode = new ChessTreeNode();
+            nextNode.Alpha = -this.Beta;
+            nextNode.Beta = -this.Alpha;
+            nextNode.Depth = this.Depth - 1;
             nextNode.PlayerIndex = 1 - this.PlayerIndex;
-			
-			return nextNode;
-		}
+
+            return nextNode;
+        }
 
         public virtual ChessTreeNode GetNextZW()
         {
@@ -48,6 +48,6 @@ namespace Queem.AI
         {
             return this.Depth == 0;
         }
-	}
+    }
 }
 
