@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>QueemCore</RootNamespace>
+    <AssemblyName>Queem.Core</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Extensions\PawnPromotionExtension.cs" />
+    <Compile Include="HighlightedSquare.cs" />
+    <Compile Include="Move.cs" />
+    <Compile Include="Extensions\MyStringExtensions.cs" />
+    <Compile Include="BitBoards\BitBoard.cs" />
+    <Compile Include="BitBoards\PawnBitBoard.cs" />
+    <Compile Include="BitBoards\KnightBitBoard.cs" />
+    <Compile Include="BitBoards\KingBitBoard.cs" />
+    <Compile Include="BitBoards\RookBitBoard.cs" />
+    <Compile Include="BitBoards\BishopBitBoard.cs" />
+    <Compile Include="BitBoardHelpers\BishopBitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\BitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\PawnBitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\RookBitBoardHelper.cs" />
+    <Compile Include="Int64Helper.cs" />
+    <Compile Include="BitBoards\BitBoardSerializer.cs" />
+    <Compile Include="BitBoards\QueenBitBoard.cs" />
+    <Compile Include="Constants\BasicEnums.cs" />
+    <Compile Include="Constants\Enumerations.cs" />
+    <Compile Include="AttacksGenerators\AttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\BishopAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\KingAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\KnightAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\QueenAttacksGenerator.cs" />
+    <Compile Include="AttacksGenerators\RookAttacksGenerator.cs" />
+    <Compile Include="ChessBoard\InitialFigureShuffler.cs" />
+    <Compile Include="ChessBoard\BoardInitializer.cs" />
+    <Compile Include="ChessBoard\PlayerBoard.cs" />
+    <Compile Include="BitBoards\BitBoardFactory.cs" />
+    <Compile Include="AttacksGenerators\AttacksGeneratorFactory.cs" />
+    <Compile Include="MovesGenerators\MovesGenerator.cs" />
+    <Compile Include="MovesGenerators\MovesGeneratorFactory.cs" />
+    <Compile Include="MovesGenerators\PawnMovesGenerator.cs" />
+    <Compile Include="MovesGenerators\KingMovesGenerator.cs" />
+    <Compile Include="BitBoardHelpers\KingBitBoardHelper.cs" />
+    <Compile Include="BitBoardHelpers\KnightBitBoardHelper.cs" />
+    <Compile Include="ChessBoard\GameProvider.cs" />
+    <Compile Include="History\MovesHistory.cs" />
+    <Compile Include="History\Change.cs" />
+    <Compile Include="History\DeltaChange.cs" />
+    <Compile Include="ChessBoard\MovesArray.cs" />
+    <Compile Include="AttacksGenerators\PawnAttacksGenerator.cs" />
+    <Compile Include="Extensions\MoveExtension.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup />
+</Project>

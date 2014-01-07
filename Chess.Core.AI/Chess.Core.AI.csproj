@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E94ED089-692E-411E-943D-2EB3E4304E87}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Queem.AI</RootNamespace>
+    <AssemblyName>Queem.AI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="ChessSolver.cs" />
+    <Compile Include="Evaluator.cs" />
+    <Compile Include="ChessTreeNode.cs" />
+    <Compile Include="MovesSorter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Core.DebutsLib\Chess.Core.DebutsLib.csproj">
+      <Project>{acd58b44-ceb6-4102-833e-599d99f03013}</Project>
+      <Name>Chess.Core.DebutsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Chess.Core.Main\Chess.Core.Main.csproj">
+      <Project>{5e1a8eb0-4749-426d-95a6-50a72cabf9d3}</Project>
+      <Name>Chess.Core.Main</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
