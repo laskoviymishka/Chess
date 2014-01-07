@@ -7,41 +7,49 @@ using System.Collections.Generic;
 
 namespace Chess.Core.Main.ChessBoard
 {
-	public class GameProvider
-	{
-		public PlayerBoard PlayerBoard1 { get; private set; }
-		public PlayerBoard PlayerBoard2 { get; private set; }
-				
-		public MovesHistory History { get; private set; }
-		
-		protected MovesArrayAllocator allocator;
-		
-		protected PlayerBoard[] playerBoards;
+    public class GameProvider
+    {
+        public PlayerBoard PlayerBoard1 { get; private set; }
+        public PlayerBoard PlayerBoard2 { get; private set; }
+
+        public MovesHistory History { get; private set; }
+
+        protected MovesArrayAllocator allocator;
+
+        protected PlayerBoard[] playerBoards;
 
         public PlayerBoard[] PlayerBoards
         {
             get { return this.playerBoards; }
         }
-        
+
         public MovesArrayAllocator Allocator
-		{
-			get { return this.allocator; }
-		}
-	
-		public GameProvider (MovesArrayAllocator arrayAllocator)
-		{
-			this.allocator = arrayAllocator;
-			this.PlayerBoard1 = new PlayerBoard(PlayerPosition.Down, Color.White, arrayAllocator);
-			this.PlayerBoard2 = new PlayerBoard(PlayerPosition.Up, Color.Black, arrayAllocator);
-			
-			this.History = new MovesHistory();
-			
-			this.playerBoards = new PlayerBoard[2];
-			this.playerBoards[(int)Color.White] = this.PlayerBoard1;
-			this.playerBoards[(int)Color.Black] = this.PlayerBoard2;
-			
-		}
-		
+        {
+            get { return this.allocator; }
+        }
+
+        public GameProvider(MovesArrayAllocator arrayAllocator)
+        {
+            this.allocator = arrayAllocator;
+            this.PlayerBoard1 = new PlayerBoard(PlayerPosition.Down, Color.White, arrayAllocator);
+            this.PlayerBoard2 = new PlayerBoard(PlayerPosition.Up, Color.Black, arrayAllocator);
+
+            this.History = new MovesHistory();
+
+            this.playerBoards = new PlayerBoard[2];
+            this.playerBoards[(int)Color.White] = this.PlayerBoard1;
+            this.playerBoards[(int)Color.Black] = this.PlayerBoard2;
+
+        }
+
+        public Move[] GetValidMoves(Color color)
+        {
+            PlayerBoard pl1 = PlayerBoards.FirstOrDefault(p => p.FigureColor == color);
+            PlayerBoard pl2 = PlayerBoards.FirstOrDefault(p => p.FigureColor != color);
+
+            return pl1.GetMoves(pl2, History.GetLastMove(), MovesMask.AllMoves).InnerArray;
+        }
+
         public void ForEachFigure(Action<Square, Figure> action)
         {
             for (int i = 0; i < 64; ++i)
@@ -86,7 +94,7 @@ namespace Chess.Core.Main.ChessBoard
             }
         }
 
-		/*
+        /*
          * Possible problematic situations
          * 
          * ----------Pawn-----------
@@ -110,194 +118,207 @@ namespace Chess.Core.Main.ChessBoard
          *  2. kill a pawn in a passing state
          *  3. kill a rook in a castling state
         */
-		public void ProcessMove(Move move, Color color)
-		{
-			var oppositeColor = (Color)(1 - (int)color);
-			
-			var playerBoard1 = this.playerBoards[(int)color];
-			var playerBoard2 = this.playerBoards[(int)oppositeColor];
-			
-			var figureMoving = playerBoard1.Figures[(int)move.From];
-			var destinationFigure = playerBoard2.Figures[(int)move.To];
+        public bool ProcessMove(Move move, Color color)
+        {
+            var oppositeColor = (Color)(1 - (int)color);
 
-			this.History.AddItem(move);
+            var playerBoard1 = this.playerBoards[(int)color];
+            var playerBoard2 = this.playerBoards[(int)oppositeColor];
 
-			var deltaChange = this.History.GetLastDeltaChange();
-			var moveChange = deltaChange.GetNext(MoveAction.Move);
-			
-			moveChange.Square = move.From;
-			moveChange.AdditionalSquare = move.To;
-			moveChange.FigureColor = color;
-			moveChange.FigureType = figureMoving;
-			moveChange.Data = playerBoard1.GetBoardProperty(figureMoving);
-			
-			playerBoard1.ProcessMove(move, figureMoving);
-			
-			if (destinationFigure != Figure.Nobody)
-			{
-				var killChange = deltaChange.GetNext(MoveAction.Deletion);
-			
-				killChange.Square = move.To;
-				killChange.Data = playerBoard2.GetBoardProperty(destinationFigure);
-				killChange.FigureType = destinationFigure;
-				killChange.FigureColor = oppositeColor;
-				
-				playerBoard2.RemoveFigure(move.To, destinationFigure);
-				
-				return;
-			}
-			
-			if (move.Type == MoveType.EpCapture)
-			{
+            Move getLastMove = new Move(Square.A1, Square.A8);
+            if (History.HasItems())
+            {
+                getLastMove = this.History.GetLastMove();
+            }
+
+            if (!GetValidMoves(color).Contains(move, Move.FromToComparer))
+            {
+                return false;
+            }
+
+            var figureMoving = playerBoard1.Figures[(int)move.From];
+            var destinationFigure = playerBoard2.Figures[(int)move.To];
+
+            this.History.AddItem(move);
+
+            var deltaChange = this.History.GetLastDeltaChange();
+            var moveChange = deltaChange.GetNext(MoveAction.Move);
+
+            moveChange.Square = move.From;
+            moveChange.AdditionalSquare = move.To;
+            moveChange.FigureColor = color;
+            moveChange.FigureType = figureMoving;
+            moveChange.Data = playerBoard1.GetBoardProperty(figureMoving);
+
+            playerBoard1.ProcessMove(move, figureMoving);
+
+            if (destinationFigure != Figure.Nobody)
+            {
+                var killChange = deltaChange.GetNext(MoveAction.Deletion);
+
+                killChange.Square = move.To;
+                killChange.Data = playerBoard2.GetBoardProperty(destinationFigure);
+                killChange.FigureType = destinationFigure;
+                killChange.FigureColor = oppositeColor;
+
+                playerBoard2.RemoveFigure(move.To, destinationFigure);
+
+                return true;
+            }
+
+            if (move.Type == MoveType.EpCapture)
+            {
                 var lastMove = this.History.GetPreLastMove();
-				
+
                 var passingKillChange = deltaChange.GetNext(MoveAction.Deletion);
-				
-				passingKillChange.Square = lastMove.To;
-				passingKillChange.FigureType = Figure.Pawn;
-				passingKillChange.FigureColor = oppositeColor;
-				
-				playerBoard2.RemoveFigure(passingKillChange.Square, Figure.Pawn);
-				
-				return;
-			}
-			
-			if (move.Type == MoveType.KingCastle)
-			{
-				int moveTo = (int)move.To;
-				int moveFrom = (int)move.From;	
-				// will be +2 or -2
-				int difference = moveTo - moveFrom;
-				// same as sign of difference
-				difference = difference / 2;
-				var rookMoveChange = deltaChange.GetNext(MoveAction.Move);
-				
-				// rook target
-				rookMoveChange.AdditionalSquare = (Square)(moveTo - difference);
-				
-				// rook source
-				// diff -> [1 -> 1, -1 -> 0]
-				difference = (difference + 1) / 2;
-				rookMoveChange.Square = (Square)((moveFrom / 8) * 8 + difference*7);
-				
-				rookMoveChange.FigureType = Figure.Rook;
-				rookMoveChange.FigureColor = color;
-				rookMoveChange.Data = playerBoard1.GetBoardProperty(Figure.Rook);
-				
-				playerBoard1.ProcessMove(
-					new Move(rookMoveChange.Square, rookMoveChange.AdditionalSquare),
-					Figure.Rook);
-					
-				return;
-			}
-		}	
-		
-		public void CancelLastMove(Color color)
-		{
-			var oppositeColor = (Color)(1 - (int)color);
-			
-			var playerBoard1 = this.playerBoards[(int)color];
-			var playerBoard2 = this.playerBoards[(int)oppositeColor];
-			
-			var deltaChanges = this.History.PopLastDeltaChange();
-			
-			while (deltaChanges.HasItems())
-			{
-				var change = deltaChanges.PopLast();
-				
-				switch (change.Action)
-				{
-				case MoveAction.PawnChange:
-					playerBoard1.AddFigure(change.Square, change.FigureType);
-					playerBoard1.SetProperty(change.FigureType, change.Data);
-					break;
-					
-				case MoveAction.Deletion:
-				
-					playerBoard2.AddFigure(change.Square, change.FigureType);
-					playerBoard2.SetProperty(change.FigureType, change.Data);
-					break;
-					
-				case MoveAction.Move:
-				
-					playerBoard1.CancelMove((int)change.Square, (int)change.AdditionalSquare);
-					playerBoard1.SetProperty(change.FigureType, change.Data);
-					break;
-					
-				case MoveAction.Creation:
-					playerBoard1.RemoveFigure(change.Square, change.FigureType);
-					break;
-				}
-			}
-		}
-		
-		public void PromotePawn(Color color, Square square, Figure newFigure)
-		{
-			var playerBoard = this.playerBoards[(int)color];			
-			var deltaChanges = this.History.GetLastDeltaChange();
-			
-			var deleteChange = deltaChanges.GetNext(MoveAction.PawnChange);
-			deleteChange.Square = square;
-			deleteChange.FigureType = Figure.Pawn;
-			deleteChange.FigureColor = color;
-			
-			var createChange = deltaChanges.GetNext(MoveAction.Creation);
-			createChange.Square = square;
-			createChange.FigureType = newFigure;
-			createChange.FigureColor = color;
-			
-			playerBoard.RemoveFigure(square, Figure.Pawn);
-			playerBoard.AddFigure(square, newFigure);
+
+                passingKillChange.Square = lastMove.To;
+                passingKillChange.FigureType = Figure.Pawn;
+                passingKillChange.FigureColor = oppositeColor;
+
+                playerBoard2.RemoveFigure(passingKillChange.Square, Figure.Pawn);
+
+                return true;
+            }
+
+            if (move.Type == MoveType.KingCastle)
+            {
+                int moveTo = (int)move.To;
+                int moveFrom = (int)move.From;
+                // will be +2 or -2
+                int difference = moveTo - moveFrom;
+                // same as sign of difference
+                difference = difference / 2;
+                var rookMoveChange = deltaChange.GetNext(MoveAction.Move);
+
+                // rook target
+                rookMoveChange.AdditionalSquare = (Square)(moveTo - difference);
+
+                // rook source
+                // diff -> [1 -> 1, -1 -> 0]
+                difference = (difference + 1) / 2;
+                rookMoveChange.Square = (Square)((moveFrom / 8) * 8 + difference * 7);
+
+                rookMoveChange.FigureType = Figure.Rook;
+                rookMoveChange.FigureColor = color;
+                rookMoveChange.Data = playerBoard1.GetBoardProperty(Figure.Rook);
+
+                playerBoard1.ProcessMove(
+                    new Move(rookMoveChange.Square, rookMoveChange.AdditionalSquare),
+                    Figure.Rook);
+
+                return true;
+            }
+
+            return true;
+        }
+
+        public void CancelLastMove(Color color)
+        {
+            var oppositeColor = (Color)(1 - (int)color);
+
+            var playerBoard1 = this.playerBoards[(int)color];
+            var playerBoard2 = this.playerBoards[(int)oppositeColor];
+
+            var deltaChanges = this.History.PopLastDeltaChange();
+
+            while (deltaChanges.HasItems())
+            {
+                var change = deltaChanges.PopLast();
+
+                switch (change.Action)
+                {
+                    case MoveAction.PawnChange:
+                        playerBoard1.AddFigure(change.Square, change.FigureType);
+                        playerBoard1.SetProperty(change.FigureType, change.Data);
+                        break;
+
+                    case MoveAction.Deletion:
+
+                        playerBoard2.AddFigure(change.Square, change.FigureType);
+                        playerBoard2.SetProperty(change.FigureType, change.Data);
+                        break;
+
+                    case MoveAction.Move:
+
+                        playerBoard1.CancelMove((int)change.Square, (int)change.AdditionalSquare);
+                        playerBoard1.SetProperty(change.FigureType, change.Data);
+                        break;
+
+                    case MoveAction.Creation:
+                        playerBoard1.RemoveFigure(change.Square, change.FigureType);
+                        break;
+                }
+            }
+        }
+
+        public void PromotePawn(Color color, Square square, Figure newFigure)
+        {
+            var playerBoard = this.playerBoards[(int)color];
+            var deltaChanges = this.History.GetLastDeltaChange();
+
+            var deleteChange = deltaChanges.GetNext(MoveAction.PawnChange);
+            deleteChange.Square = square;
+            deleteChange.FigureType = Figure.Pawn;
+            deleteChange.FigureColor = color;
+
+            var createChange = deltaChanges.GetNext(MoveAction.Creation);
+            createChange.Square = square;
+            createChange.FigureType = newFigure;
+            createChange.FigureColor = color;
+
+            playerBoard.RemoveFigure(square, Figure.Pawn);
+            playerBoard.AddFigure(square, newFigure);
             this.History.GetLastMove().Type = newFigure.GetPromotionType();
-		}
-		
-		public bool IsUnderCheck(Color color)
-		{
-			var oppositeColor = 1 - (int)color;
-			
-			var player = this.playerBoards[(int)color];
-			var opponent = this.playerBoards[oppositeColor];
-			
-			return player.IsUnderCheck(opponent);
-		}
-		
-		public bool IsCheckmate(Color color)
-		{
-			var oppositeColor = 1 - (int)color;
-			
-			var player = this.playerBoards[(int)color];
-			var opponent = this.playerBoards[oppositeColor];
-			
-			if(!player.IsUnderCheck(opponent))
-				return false;
-		
-			return this.AreNoMoves(player, opponent);
-		}		
-		
-		public bool IsStalemate(Color color)
-		{
-			var oppositeColor = 1 - (int)color;
-			
-			var player = this.playerBoards[(int)color];
-			var opponent = this.playerBoards[oppositeColor];
-			
-			if(player.IsUnderCheck(opponent))
-				return false;
-		
-			return this.AreNoMoves(player, opponent);
-		}
-		
-		private bool AreNoMoves(PlayerBoard player, PlayerBoard opponent)
-		{
-			var moves = player.GetMoves(opponent, 
-										this.History.GetLastMove(), 
-										MovesMask.AllMoves);
+        }
+
+        public bool IsUnderCheck(Color color)
+        {
+            var oppositeColor = 1 - (int)color;
+
+            var player = this.playerBoards[(int)color];
+            var opponent = this.playerBoards[oppositeColor];
+
+            return player.IsUnderCheck(opponent);
+        }
+
+        public bool IsCheckmate(Color color)
+        {
+            var oppositeColor = 1 - (int)color;
+
+            var player = this.playerBoards[(int)color];
+            var opponent = this.playerBoards[oppositeColor];
+
+            if (!player.IsUnderCheck(opponent))
+                return false;
+
+            return this.AreNoMoves(player, opponent);
+        }
+
+        public bool IsStalemate(Color color)
+        {
+            var oppositeColor = 1 - (int)color;
+
+            var player = this.playerBoards[(int)color];
+            var opponent = this.playerBoards[oppositeColor];
+
+            if (player.IsUnderCheck(opponent))
+                return false;
+
+            return this.AreNoMoves(player, opponent);
+        }
+
+        private bool AreNoMoves(PlayerBoard player, PlayerBoard opponent)
+        {
+            var moves = player.GetMoves(opponent,
+                                        this.History.GetLastMove(),
+                                        MovesMask.AllMoves);
 
             this.FilterMoves(moves, player.FigureColor);
-			bool result = (moves.Size == 0);
-			this.allocator.ReleaseLast();
-			return result;
-		}
+            bool result = (moves.Size == 0);
+            this.allocator.ReleaseLast();
+            return result;
+        }
 
         public void FilterMoves(FixedArray moves, Color playerColor)
         {
@@ -375,9 +396,9 @@ namespace Chess.Core.Main.ChessBoard
         public void ResetAll()
         {
             this.PlayerBoard1.ResetAll();
-            this.PlayerBoard2.ResetAll();            
+            this.PlayerBoard2.ResetAll();
             this.History.Reset();
         }
-	}
+    }
 }
 
