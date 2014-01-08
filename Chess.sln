@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Infrastructure.DataAc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Infrastructure.BusinesLogic", "Chess.Infrastructure.BusinesLogic\Chess.Infrastructure.BusinesLogic.csproj", "{E782BAD6-3007-4DEC-A286-0DF4A3A15731}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.UI.WebUI", "Chess.UI.WebUI\Chess.UI.WebUI.csproj", "{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.AI", "Chess.Core.AI\Chess.Core.AI.csproj", "{E94ED089-692E-411E-943D-2EB3E4304E87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.BitBoardGenerators", "Chess.Core.BitBoardGenerators\Chess.Core.BitBoardGenerators.csproj", "{71F04603-9D19-4169-A25E-05C91868E63B}"
@@ -26,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Core.Main", "Chess.Core.Main\Chess.Core.Main.csproj", "{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Test.Tester", "Chess.Test.Tester\Chess.Test.Tester.csproj", "{8076869A-CB01-4F52-827C-77DD5234B4C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.UI.WebApi", "Chess.UI.WebApi\Chess.UI.WebApi.csproj", "{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,14 +51,6 @@ Global
 		{E782BAD6-3007-4DEC-A286-0DF4A3A15731}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E782BAD6-3007-4DEC-A286-0DF4A3A15731}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E782BAD6-3007-4DEC-A286-0DF4A3A15731}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E94ED089-692E-411E-943D-2EB3E4304E87}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -97,6 +89,14 @@ Global
 		{8076869A-CB01-4F52-827C-77DD5234B4C6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8076869A-CB01-4F52-827C-77DD5234B4C6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8076869A-CB01-4F52-827C-77DD5234B4C6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,6 +109,6 @@ Global
 		{71F04603-9D19-4169-A25E-05C91868E63B} = {9FC8E1E0-23E5-471D-A0F7-C53EF5C66BFF}
 		{ACD58B44-CEB6-4102-833E-599D99F03013} = {9FC8E1E0-23E5-471D-A0F7-C53EF5C66BFF}
 		{5E1A8EB0-4749-426D-95A6-50A72CABF9D3} = {9FC8E1E0-23E5-471D-A0F7-C53EF5C66BFF}
-		{0EC211ED-095D-4CF2-93BD-09675FE9FEFC} = {F44B4B10-4164-416D-BBE9-D1F266C73E7D}
+		{3D1ED0BF-94D8-4C5D-94A5-01E231C89257} = {F44B4B10-4164-416D-BBE9-D1F266C73E7D}
 	EndGlobalSection
 EndGlobal

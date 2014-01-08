@@ -68,10 +68,6 @@
       <Project>{85638498-36c8-4116-ae5e-b6d2a069ea8a}</Project>
       <Name>Chess.Infrastructure.DataAccess</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Chess.UI.WebUI\Chess.UI.WebUI.csproj">
-      <Project>{0ec211ed-095d-4cf2-93bd-09675fe9fefc}</Project>
-      <Name>Chess.UI.WebUI</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

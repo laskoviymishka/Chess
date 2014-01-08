@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ProxyApi.Intellisense</id>
+    <version>0.1.4</version>
+    <title>ProxyApi.Intellisense</title>
+    <authors>Steve Greatrex</authors>
+    <owners>Steve Greatrex</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A package to add intellisense to ProxyApi</description>
+    <releaseNotes>Fixed issue with encoding in powershell script</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <language />
+    <tags>ASP.NET WebAPI MVC JavaScript</tags>
+    <dependencies>
+      <dependency id="ProxyApi" version="0.1.11" />
+    </dependencies>
+  </metadata>
+</package>
