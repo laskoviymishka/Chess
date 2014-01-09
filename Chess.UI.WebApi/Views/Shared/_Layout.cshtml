@@ -41,8 +41,13 @@
                 </div>
             </div>
         </footer>
-
+        
         @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/jquery.signalR-2.0.1.min.js"></script>
+        <script src="@Url.Content("~/signalr/hubs")"></script>
         @RenderSection("scripts", required: false)
+        <script src="~/Scripts/chess/Chess.js"></script>
+        <script src="~/Scripts/chess/chessboard-0.3.0.js"></script>
+        @Scripts.Render("~/api/proxies")
     </body>
 </html>

@@ -250,6 +250,58 @@
 
 };
 	
+	$.proxies.chessapi = {
+		defaultOptions: {},
+		antiForgeryToken: defaultAntiForgeryTokenAccessor,
+
+
+
+	start: function() {
+		return invoke.call(this, "", "get", 
+		
+			{}
+		
+		
+			);
+		
+	},
+
+
+
+	move: function(model) {
+		return invoke.call(this, "", "get", 
+		
+			{
+			
+				model: arguments[0],
+			
+			}
+		
+		
+			);
+		
+	},
+
+};
+	
+	$.proxies.game = {
+		defaultOptions: {},
+		antiForgeryToken: defaultAntiForgeryTokenAccessor,
+
+
+
+	index: function() {
+		return invoke.call(this, "", "get", 
+		
+			{}
+		
+		
+			);
+		
+	},
+
+};
+	
 	$.proxies.home = {
 		defaultOptions: {},
 		antiForgeryToken: defaultAntiForgeryTokenAccessor,
@@ -292,80 +344,16 @@
 
 };
 	
-	$.proxies.testapi = {
+	$.proxies.test = {
 		defaultOptions: {},
 		antiForgeryToken: defaultAntiForgeryTokenAccessor,
 
 
 
-	index: function() {
+	get: function() {
 		return invoke.call(this, "", "get", 
 		
 			{}
-		
-		
-			);
-		
-	},
-
-
-
-	details: function(id) {
-		return invoke.call(this, "", "get", 
-		
-			{
-			
-				id: arguments[0],
-			
-			}
-		
-		
-			);
-		
-	},
-
-
-
-	create: function(collection) {
-		return invoke.call(this, "", "post", 
-		
-			{}
-		
-		
-			, arguments[0]);
-		
-	},
-
-
-
-	edit: function(id,collection) {
-		return invoke.call(this, "", "post", 
-		
-			{
-			
-				id: arguments[0],
-			
-				collection: arguments[1],
-			
-			}
-		
-		
-			);
-		
-	},
-
-
-
-	delete: function(id,collection) {
-		return invoke.call(this, "", "post", 
-		
-			{
-			
-				id: arguments[0],
-			
-				collection: arguments[1],
-			
-			}
 		
 		
 			);

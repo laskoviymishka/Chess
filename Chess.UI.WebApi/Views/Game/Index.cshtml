@@ -13,7 +13,11 @@
 <div id="board" style="width: 400px"></div>
 <!-- end example HTML --->
 <script src="~/Scripts/jquery-1.8.2.min.js"></script>
-
+<script src="~/Scripts/chess/Chess.js"></script>
+<script src="~/Scripts/chess/chessboard-0.3.0.js"></script>
+<script src="~/Scripts/jquery.signalR-2.0.1.min.js"></script>
+<script src="@Url.Content("~/signalr/hubs")"></script>
+@Scripts.Render("~/api/proxies")
 <script>
     var board;
     var game;
@@ -52,6 +56,7 @@
                 to: target,
                 promotion: 'q' // NOTE: always promote to a pawn for example simplicity
             });
+            alert(source + '  ' + target);
             if (move === null) return 'snapback';
             var moveModel = {
                 From: source,
@@ -96,17 +101,16 @@
         board = new ChessBoard('board', cfg);
 
         simpleHub = $.connection.chessHub;
-        simpleHub.client.solverMoved = function (data) {
-            alert(data.From + "  " + data.To);
-            game.move({
-                from: data.From,
-                to: data.To,
-                promotion: 'q' // NOTE: always promote to a pawn for example simplicity
-            });
-        }
 
         $.connection.hub.start().done(function () {
-            
+            simpleHub.server.solverMove().done(function (data) {
+                alert(data.From + "  " + data.To);
+                game.move({
+                    from: data.From,
+                    to: data.To,
+                    promotion: 'q' // NOTE: always promote to a pawn for example simplicity
+                });
+            });
         });
     };
 
