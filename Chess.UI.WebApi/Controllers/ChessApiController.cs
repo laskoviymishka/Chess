@@ -15,24 +15,19 @@ namespace Chess.UI.WebApi.Controllers
 {
     public class ChessApiController : ApiController
     {
-        private GameProvider _game;
-        private ChessSolver _solver;
-
         [HttpGet]
         public void Start()
         {
-            _game = new GameProvider(new MovesArrayAllocator());
-            _solver = new ChessSolver(new DebutGraph());
+            InMemory.Game = new Dictionary<string, GameProvider>();
+            InMemory.Solver = new Dictionary<string, ChessSolver>();
+            InMemory.Game.Add("test", new GameProvider(new MovesArrayAllocator()));
+            InMemory.Solver.Add("test", new ChessSolver(new DebutGraph()));
+
         }
 
         [HttpGet]
         public void Move([FromUri]MoveModel model)
         {
-            if (_game == null)
-            {
-                Start();
-            }
-
             Square from = (Square)Enum.Parse(typeof(Square), model.From, true);
             Square to = (Square)Enum.Parse(typeof(Square), model.To, true);
             Color color = Color.White;
@@ -41,9 +36,9 @@ namespace Chess.UI.WebApi.Controllers
                 color = Color.Black;
             }
 
-            _game.ProcessMove(new Move(from, to), color);
-            var solverMove = _solver.SolveProblem(_game, Color.Black, 4);
-            _game.ProcessMove(solverMove, Color.Black);
+            InMemory.Game["test"].ProcessMove(new Move(from, to), color);
+            var solverMove = InMemory.Solver["test"].SolveProblem(InMemory.Game["test"], Color.Black, 4);
+            InMemory.Game["test"].ProcessMove(solverMove, Color.Black);
             BroadcasterContext.Current.UpdateMove(new MoveModel
             {
                 Color = "b",
@@ -51,5 +46,12 @@ namespace Chess.UI.WebApi.Controllers
                 To = solverMove.To.ToString().ToLower()
             });
         }
+    }
+
+    public class InMemory
+    {
+        public static Dictionary<string, GameProvider> Game;
+        public static Dictionary<string, ChessSolver> Solver;
+
     }
 }

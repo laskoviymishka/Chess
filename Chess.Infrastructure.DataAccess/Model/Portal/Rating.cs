@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chess.Infrastructure.DataAccess
+namespace Chess.Infrastructure.DataAccess.Model.Portal
 {
-    public class Class1
+    public class Rating
     {
     }
 }
