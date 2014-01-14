@@ -46,10 +46,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRepository.cs" />
-    <Compile Include="Model\Common\Entity.cs" />
+    <Compile Include="Model\Portal\Badge.cs" />
+    <Compile Include="Model\Portal\Chat.cs" />
+    <Compile Include="Model\Portal\ChessFigure.cs" />
+    <Compile Include="Model\Portal\DualGame.cs" />
+    <Compile Include="Model\Portal\Game.cs" />
+    <Compile Include="Model\Portal\GameState.cs" />
+    <Compile Include="Model\Portal\Moves.cs" />
+    <Compile Include="Model\Portal\PazzleGame.cs" />
+    <Compile Include="Model\Portal\Pazzle.cs" />
     <Compile Include="Model\Portal\Rating.cs" />
     <Compile Include="Model\Portal\UserAccount.cs" />
     <Compile Include="Model\Portal\UserProfile.cs" />
+    <Compile Include="Model\Portal\VersusAi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,7 +66,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\Chess\" />
+    <Folder Include="Model\Common\" />
     <Folder Include="Repository\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Core.Main\Chess.Core.Main.csproj">
+      <Project>{5E1A8EB0-4749-426D-95A6-50A72CABF9D3}</Project>
+      <Name>Chess.Core.Main</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
