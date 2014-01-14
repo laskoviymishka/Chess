@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<link href="~/Content/chess/chessboard-0.3.0.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/chess/chessboard-0.3.0.js"></script>
+<script src="~/Scripts/chess/Chess.js"></script>
+<div class="jumbotron">
+    <h1>Игра</h1>
+    <div id="board"></div>
+</div>
+
+<script>
+    var board;
+    var game;
+    var init = function () {
+        game = new Chess();
+        var removeGreySquares = function () {
+        };
+
+        var greySquare = function (square) {
+
+        };
+
+        var onDragStart = function (source, piece) {
+
+        };
+
+        var onDrop = function (source, target) {
+            var move = board.move(source + '-' + target);
+            if (move === null) return 'snapback';
+            var moveModel = {
+                From: source,
+                To: target,
+                Color: 'w'
+            }
+            $.proxies.chessapi.move(moveModel);
+        };
+
+        var onMouseoverSquare = function (square, piece) {
+        };
+
+        var onMouseoutSquare = function (square, piece) {
+        };
+
+        var onSnapEnd = function () {
+        };
+
+        var cfg = {
+            draggable: true,
+            position: 'start',
+            onDragStart: onDragStart,
+            onDrop: onDrop,
+            onMouseoutSquare: onMouseoutSquare,
+            onMouseoverSquare: onMouseoverSquare,
+            onSnapEnd: onSnapEnd
+        };
+        board = new ChessBoard('board', cfg);
+    };
+
+    $(document).ready(init);
+
+</script>

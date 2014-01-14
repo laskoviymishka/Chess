@@ -26,8 +26,5 @@ namespace Chess.Infrastructure.DataAccess.Model.Portal
         public string PasswordQuestion { get; set; }
         public string Salt { get; set; }
         public string Username { get; set; }
-        public string Email { get; set; }
-        public UserProfile UserProfile { get; set; }
-
     }
 }
