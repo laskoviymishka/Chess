@@ -48,10 +48,12 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="Model\Portal\Badge.cs" />
     <Compile Include="Model\Portal\Chat.cs" />
+    <Compile Include="Model\Portal\ChatMessage.cs" />
     <Compile Include="Model\Portal\ChessFigure.cs" />
     <Compile Include="Model\Portal\DualGame.cs" />
     <Compile Include="Model\Portal\Game.cs" />
     <Compile Include="Model\Portal\GameState.cs" />
+    <Compile Include="Model\Portal\IMongoEntity.cs" />
     <Compile Include="Model\Portal\Moves.cs" />
     <Compile Include="Model\Portal\PazzleGame.cs" />
     <Compile Include="Model\Portal\Pazzle.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="Model\Portal\UserProfile.cs" />
     <Compile Include="Model\Portal\VersusAi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\MongoRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -67,7 +70,6 @@
   <ItemGroup>
     <Folder Include="Model\Chess\" />
     <Folder Include="Model\Common\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Chess.Core.Main\Chess.Core.Main.csproj">

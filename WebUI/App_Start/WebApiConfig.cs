@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Routing;
-using ProxyApi;
+//using ProxyApi;
 
 namespace Chess.UI.WebUI
 {
@@ -13,8 +13,8 @@ namespace Chess.UI.WebUI
             routeValues.Add("controller", null);
             routeValues.Add("action", null);
 
-            RouteTable.Routes.Add("ProxyApi",
-                new Route("api/proxies", routeValues, ProxyDependencyResolver.Instance.GetService(typeof(RouteHandler)) as RouteHandler));
+            //RouteTable.Routes.Add("ProxyApi",
+            //    new Route("api/proxies", routeValues, ProxyDependencyResolver.Instance.GetService(typeof(RouteHandler)) as RouteHandler));
 
             GlobalConfiguration.Configuration.Routes.MapHttpRoute(
                 name: "ApiProxy",

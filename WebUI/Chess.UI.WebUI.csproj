@@ -187,6 +187,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Models\CreateGameViewModel.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
@@ -265,13 +267,14 @@
     <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Game\MyGames.cshtml" />
+    <Content Include="Views\Rating\MyRating.cshtml" />
+    <Content Include="Views\Chat\Game.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Hubs\" />
-    <Folder Include="Views\Game\" />
     <Folder Include="Views\Player\" />
-    <Folder Include="Views\Rating\" />
     <Folder Include="Views\Trainings\" />
   </ItemGroup>
   <ItemGroup>

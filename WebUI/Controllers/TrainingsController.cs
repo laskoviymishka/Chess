@@ -17,7 +17,17 @@ namespace Chess.UI.WebUI.Controllers
 
         public ActionResult MyTraining()
         {
-            throw new NotImplementedException();
+            return View();
+        }
+
+        public ActionResult CreateAiGame(string playerId)
+        {
+            return View();
+        }
+
+        public ActionResult CreatePazzle(string playerId, string PazzleId)
+        {
+            return View();
         }
     }
 }

@@ -6,18 +6,13 @@ using System.Web.Mvc;
 
 namespace Chess.UI.WebUI.Controllers
 {
-    public class RatingController : Controller
+    public class ChatController : Controller
     {
         //
-        // GET: /Rating/
-        public ActionResult Index()
+        // GET: /Chat/
+        public ActionResult Game(string id)
         {
             return View();
         }
-
-        public ActionResult MyRating()
-        {
-            return View();
-        }
-    }
+	}
 }
